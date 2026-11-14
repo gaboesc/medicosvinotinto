@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AVEMEF · Médicos Vinotinto</title>
+<link rel="icon" href="img-logo-sm.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12060a; --night:#1e0910; --wine:#5c1023; --vino:#7d1631; --vino2:#a32443; --rose:#e9b7c3; --blush:#f6e9ec;
+  --white:#fff; --paper:#faf7f6; --g1:#a8979b; --g2:#6f6266; --line:rgba(246,233,236,.13);
+  --display:'Archivo',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:clip}
+body{background:var(--ink);color:var(--white);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(1240px,92vw);margin:0 auto}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
+.h-xl{font-family:var(--display);font-stretch:125%;font-weight:900;line-height:.9;letter-spacing:-.02em;text-transform:uppercase}
+.h-l{font-family:var(--display);font-stretch:112%;font-weight:800;line-height:1;letter-spacing:-.01em;text-transform:uppercase;font-size:clamp(2rem,4.4vw,3.6rem)}
+.lead{font-size:clamp(1rem,1.25vw,1.15rem);color:#eadde0;font-weight:300;max-width:62ch}
+.cta{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.5);color:#fff;padding:12px 22px;border-radius:99px;font-size:.88rem;font-weight:500;transition:background .25s,color .25s,border-color .25s;cursor:pointer;background:none}
+.cta:hover{background:#fff;color:var(--wine);border-color:#fff}
+.cta.fill{background:#fff;color:var(--wine);border-color:#fff}
+.cta.fill:hover{background:var(--rose);border-color:var(--rose)}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+nav.solid{background:rgba(18,6,10,.85);backdrop-filter:blur(14px);border-color:var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:78px;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:50px;width:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.brand b{font-family:var(--display);font-stretch:125%;font-weight:900;letter-spacing:.04em;font-size:1.05rem;display:block;line-height:1.1}
+.brand small{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:var(--rose);text-transform:uppercase}
+.links{display:flex;gap:6px;font-size:.86rem}
+.links a{padding:8px 13px;border-radius:99px;color:#eadde0;transition:background .2s,color .2s}
+.links a:hover{background:rgba(255,255,255,.08)}
+.links a.on{background:#fff;color:var(--wine);font-weight:500}
+.nav-ig span{display:none}@media(min-width:1280px){.nav-ig span{display:inline}}
+.burger{display:none;background:none;border:0;color:#fff;font-size:1.5rem;cursor:pointer}
+
+/* VIEWS */
+.view{display:none;min-height:100svh}
+.view.on{display:block;animation:fade .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.page-head{position:relative;padding:150px 0 70px;overflow:hidden;background:var(--night);color:#fff}
+.page-head .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.28;filter:grayscale(.35)}
+.page-head::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,6,10,.95) 25%,rgba(92,16,35,.55) 100%)}
+.page-head .wrap{position:relative;z-index:2}
+.page-head .h-xl{font-size:clamp(2.8rem,7.5vw,6.4rem);margin-top:14px}
+.page-head .lead{margin-top:18px}
+.body{padding:70px 0 110px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid var(--line);margin-top:80px;padding-top:28px}
+.next a{font-family:var(--display);font-stretch:118%;font-weight:800;text-transform:uppercase;font-size:clamp(1.2rem,2.4vw,1.8rem);display:inline-flex;gap:14px;align-items:center}
+.next a:hover{color:var(--rose)}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:700px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;background:url(img-hero-cancha.jpg) center/cover;animation:kb 30s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.04)}to{transform:scale(1.16) translate(-1.5%,1%)}}
+.hero-tint{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(18,6,10,.72) 0%,rgba(92,16,35,.35) 38%,rgba(18,6,10,.82) 78%,var(--ink) 100%),
+  linear-gradient(90deg,rgba(92,16,35,.65),transparent 70%)}
+.hero-logo{position:absolute;right:5vw;top:120px;width:clamp(120px,15vw,210px);z-index:2;filter:drop-shadow(0 18px 40px rgba(0,0,0,.5));animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.hero-inner{position:relative;z-index:3;padding-bottom:clamp(36px,6vh,70px)}
+.hero h1{font-size:clamp(3.2rem,10vw,9.2rem)}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:1.5px #fff}
+.hero h1 .rose{color:var(--rose)}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-top:30px;flex-wrap:wrap}
+.count{display:flex;gap:10px}
+.count div{min-width:80px;padding:12px 10px;border:1px solid var(--line);border-radius:14px;background:rgba(30,9,16,.6);backdrop-filter:blur(8px);text-align:center}
+.count b{display:block;font-family:var(--display);font-stretch:110%;font-weight:800;font-size:1.9rem;line-height:1}
+.count span{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--g1);text-transform:uppercase}
+.count-label{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--rose);text-transform:uppercase;margin-bottom:10px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:16px 0 70px}
+.tile{position:relative;border-radius:22px;overflow:hidden;min-height:250px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);background:var(--night);transition:transform .35s,border-color .35s}
+.tile:hover{transform:translateY(-6px);border-color:rgba(233,183,195,.5)}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;transition:opacity .4s,transform .7s}
+.tile:hover img{opacity:.75;transform:scale(1.05)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(18,6,10,.92))}
+.tile>*:not(img){position:relative;z-index:2}
+.tile h3{font-family:var(--display);font-stretch:115%;font-weight:800;text-transform:uppercase;font-size:1.3rem;line-height:1.05}
+.tile p{font-size:.86rem;color:#d9c9cd;margin-top:6px}
+.tile .arrow{position:absolute;top:18px;right:18px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.4);display:grid;place-items:center}
+
+/* NOSOTROS */
+.split{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(36px,6vw,90px);align-items:start}
+.pillars{display:grid;gap:14px}
+.pillar{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:22px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,rgba(125,22,49,.28),rgba(30,9,16,.4))}
+.pillar svg{width:42px;height:42px;stroke:var(--rose);fill:none;stroke-width:1.4}
+.pillar h3{font-family:var(--display);font-stretch:112%;font-weight:700;text-transform:uppercase;font-size:1.05rem}
+.pillar p{color:var(--g1);font-size:.93rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:70px;border-top:1px solid var(--line)}
+.stat{padding:28px 20px 0 0}
+.stat b{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(2.2rem,4.6vw,3.8rem);line-height:1;display:block}
+.stat b em{font-style:normal;color:var(--rose)}
+.stat span{color:var(--g1);font-size:.88rem}
+
+/* MUNDIAL (light) */
+.light{background:var(--paper);color:var(--ink)}
+.light .lead{color:#4a3a3f}
+.quote{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,2.8vw,2.3rem);line-height:1.15;border-left:3px solid var(--vino);padding-left:24px;color:var(--wine)}
+.quote small{display:block;margin-top:14px;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);font-weight:400}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+.fact{background:#fff;border-radius:18px;padding:20px;border:1px solid rgba(18,6,10,.07)}
+.fact b{font-family:var(--display);font-stretch:118%;font-weight:800;font-size:1.8rem;display:block;line-height:1.05;color:var(--vino)}
+.fact span{font-size:.86rem;color:var(--g2)}
+.cups{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.cup{border-radius:18px;padding:22px;background:var(--wine);color:#fff}
+.cup:nth-child(2){background:var(--vino)}
+.cup h4{font-family:var(--display);font-stretch:118%;font-weight:800;text-transform:uppercase;font-size:1.1rem}
+.cup p{font-size:.86rem;color:var(--blush);margin-top:6px}
+.light .next{border-color:rgba(18,6,10,.12)}
+.light .next a:hover{color:var(--vino)}
+
+/* TRAYECTORIA */
+.timeline{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.tl{border:1px solid var(--line);border-radius:22px;padding:22px;background:rgba(30,9,16,.6);transition:transform .3s,border-color .3s;position:relative;overflow:hidden}
+.tl:hover{transform:translateY(-5px);border-color:rgba(233,183,195,.5)}
+.tl.ve{background:linear-gradient(165deg,var(--vino),var(--wine))}
+.tl.next26{background:#fff;color:var(--ink)}
+.tl-img{margin:-22px -22px 16px;aspect-ratio:16/9;overflow:hidden}
+.tl-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.tl:hover .tl-img img{transform:scale(1.05)}
+.tl.skip{opacity:.45}
+.tl .yr{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:2.8rem;line-height:1}
+.tl.next26 .yr{color:var(--vino)}
+.tl .city{font-weight:500;margin-top:8px}
+.tl .ctry{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g1)}
+.tl.ve .ctry{color:var(--rose)}
+.tl p{font-size:.84rem;color:#eadde0;margin-top:10px}
+.tl.next26 p{color:var(--g2)}
+.tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:99px;border:1px dashed var(--g2);color:var(--g1)}
+.tl.ve .tag{border:1px solid #fff;color:#fff}
+.tl.next26 .tag{background:var(--vino);border-color:var(--vino);color:#fff}
+
+/* COSTA RICA */
+.cr-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(30px,5vw,70px);align-items:start}
+.cr-card{border:1px solid var(--line);border-radius:26px;padding:28px;background:rgba(30,9,16,.75)}
+.cr-row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--line)}
+.cr-row:last-child{border:0}
+.cr-row span{color:var(--g1);font-size:.88rem}
+.cr-row b{font-weight:500;text-align:right}
+.cr-photo{border-radius:24px;overflow:hidden;margin-top:26px;aspect-ratio:16/9;position:relative}
+.cr-photo img{width:100%;height:100%;object-fit:cover}
+.cr-photo span{position:absolute;left:16px;bottom:14px;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(18,6,10,.75);padding:6px 10px;border-radius:99px}
+
+/* PLANTILLA */
+.tabs{display:inline-flex;border:1px solid var(--line);border-radius:99px;padding:5px;background:var(--night);margin-bottom:24px}
+.tabs button{background:none;border:0;color:#eadde0;font:500 .88rem var(--body);padding:10px 22px;border-radius:99px;cursor:pointer}
+.tabs button.on{background:#fff;color:var(--wine)}
+.roster-meta{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:30px;color:var(--g1);font-size:.9rem}
+.roster-meta b{color:#fff;font-family:var(--display);font-stretch:115%;font-size:1.3rem;margin-right:6px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.player{position:relative;border-radius:20px;background:linear-gradient(165deg,var(--wine),var(--night));border:1px solid var(--line);overflow:hidden;transition:transform .35s,border-color .35s}
+.player:hover{transform:translateY(-6px);border-color:rgba(233,183,195,.6)}
+.player .ph{position:relative;aspect-ratio:4/5;overflow:hidden;background:radial-gradient(circle at 50% 35%,var(--vino),var(--night));display:grid;place-items:center}
+.player .ph img.face{width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.03);transition:transform .6s,filter .4s}
+.player:hover .ph img.face{transform:scale(1.05);filter:none}
+.player .ph img.wm{width:44%;opacity:.18;filter:grayscale(1) brightness(2)}
+.player .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(30,9,16,.95))}
+.player .dorsal{position:absolute;z-index:2;right:12px;bottom:-6px;font-family:var(--display);font-stretch:125%;font-weight:900;font-size:4.2rem;line-height:1;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.45)}
+.player .info{padding:12px 16px 16px}
+.player .pos{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)}
+.player .name{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:1.02rem;line-height:1.15;text-transform:uppercase;margin-top:3px}
+.player .esp{font-size:.78rem;color:var(--g1);margin-top:3px}
+.player.founder .ph::before{content:"Fundador";position:absolute;z-index:3;top:12px;left:12px;font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;background:#fff;color:var(--wine);padding:4px 8px;border-radius:99px}
+.player.gk .pos::after{content:" · GK";color:#fff}
+
+/* FUNDADORES */
+.founders{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.fd{border-radius:22px;overflow:hidden;background:var(--night);border:1px solid var(--line);transition:transform .35s}
+.fd:hover{transform:translateY(-6px)}
+.fd .ph{aspect-ratio:4/5;position:relative;background:radial-gradient(circle at 50% 35%,var(--vino),var(--night));display:grid;place-items:center;overflow:hidden}
+.fd .ph img.face{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(1) contrast(1.05);transition:filter .5s,transform .6s}
+.fd:hover .ph img.face{filter:none;transform:scale(1.04)}
+.fd .ph img.wm{width:42%;opacity:.16;filter:grayscale(1) brightness(2)}
+.fd .ph .ini{position:absolute;font-family:var(--display);font-stretch:125%;font-weight:900;font-size:3.4rem;color:rgba(255,255,255,.85)}
+.fd .info{padding:18px 18px 22px}
+.fd h3{font-family:var(--display);font-stretch:108%;font-weight:700;text-transform:uppercase;font-size:1.02rem;line-height:1.15}
+.fd .sp{color:var(--rose);font-size:.86rem;margin-top:6px}
+.fd .wk{color:var(--g1);font-size:.8rem;margin-top:2px}
+.tbd{opacity:.55;font-style:italic}
+
+/* GALERÍA */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gi{aspect-ratio:4/3}
+.gfilter{flex-wrap:wrap;margin-bottom:22px}
+.gi{border-radius:18px;overflow:hidden;position:relative;background:var(--night);border:1px solid var(--line);cursor:zoom-in}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.gi:hover img{transform:scale(1.06)}
+.gi .cap{position:absolute;left:12px;bottom:12px;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(18,6,10,.75);backdrop-filter:blur(6px);padding:6px 10px;border-radius:99px}
+.lb{position:fixed;inset:0;z-index:90;background:rgba(10,3,5,.94);display:none;place-items:center;padding:4vw;cursor:zoom-out}
+.lb.on{display:grid}
+.lb img{max-height:84vh;border-radius:14px}
+.lb p{margin-top:14px;text-align:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)}
+
+/* CONTACTO */
+.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(30px,6vw,90px)}
+.channels{display:grid;gap:10px;margin-top:30px}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-radius:16px;background:#fff;color:var(--ink);transition:background .25s,color .25s}
+.ch:hover{background:var(--vino);color:#fff}
+.ch span{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g2)}
+.ch:hover span{color:var(--rose)}
+form{display:grid;gap:12px}
+label{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g2)}
+input,select,textarea{width:100%;font:400 1rem var(--body);padding:14px 16px;border-radius:14px;border:1px solid rgba(18,6,10,.14);background:#fff;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--vino)}
+textarea{min-height:120px;resize:vertical}
+.btn{background:var(--vino);color:#fff;border:0;border-radius:99px;padding:15px 26px;font:500 .95rem var(--body);cursor:pointer}
+.btn:hover{background:var(--wine)}
+.form-ok{display:none;padding:16px;border-radius:14px;background:var(--blush);font-size:.92rem}
+
+
+/* INSTAGRAM */
+.ig-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.35);font-size:.82rem;transition:background .2s,color .2s}
+.ig-btn:hover{background:#fff;color:var(--wine)}
+.ig-sec{padding:0 0 100px}
+.ig-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.ig-head h2{font-family:var(--display);font-stretch:118%;font-weight:800;text-transform:uppercase;font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1}
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.ig-grid a{position:relative;aspect-ratio:1;overflow:hidden;border-radius:12px;background:var(--night)}
+.ig-grid img{width:100%;height:100%;object-fit:cover;transition:transform .6s,opacity .3s}
+.ig-grid a::after{content:"";position:absolute;inset:0;background:rgba(125,22,49,.0);transition:background .3s}
+.ig-grid a:hover img{transform:scale(1.07)}
+.ig-grid a:hover::after{background:rgba(125,22,49,.35)}
+@media (max-width:760px){.ig-grid{grid-template-columns:repeat(3,1fr)}}
+footer{background:#0b0306;padding:34px 0;border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--g1);font-size:.82rem}
+footer img{height:38px}
+
+@media (max-width:1060px){
+  .links{display:none}.burger{display:block}
+  .links.open{display:flex;flex-direction:column;position:fixed;top:78px;left:0;right:0;background:var(--ink);padding:18px 5vw 26px;border-bottom:1px solid var(--line)}
+  .split,.cr-grid,.contact-grid{grid-template-columns:1fr}
+  .tiles{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.founders{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .hero-logo{top:100px;width:96px}
+}
+@media (max-width:560px){.tiles{grid-template-columns:1fr}.facts,.cups{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="img-logo-sm.png" alt="Logo AVEMEF"><span><b>AVEMEF</b><small>Médicos Vinotinto</small></span></a>
+    <div class="links" id="links">
+      <a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#mundial">El Mundial</a><a href="#trayectoria">Trayectoria</a><a href="#costa-rica">Costa Rica 2026</a><a href="#plantilla">Plantilla</a><a href="#fundadores">Fundadores</a><a href="#galeria">Galería</a><a href="#contacto">Contacto</a>
+    </div>
+    <a class="ig-btn nav-ig" href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span>@medicosvinotinto</span></a>
+    <button class="burger" aria-label="Menú" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<!-- ============ INICIO ============ -->
+<main class="view" data-view="inicio">
+  <header class="hero">
+    <div class="hero-bg"></div><div class="hero-tint"></div>
+    <img class="hero-logo" src="img-logo.png" alt="Escudo AVEMEF">
+    <div class="wrap hero-inner">
+      <p class="mono">Asociación Venezolana de Médicos Futbolistas</p>
+      <h1 class="h-xl" style="margin-top:14px">Médicos<br><span class="outline">en la</span> <span class="rose">cancha</span></h1>
+      <div class="hero-row">
+        <p class="lead" style="max-width:46ch">La selección de médicos de Venezuela. Desde 2014 llevamos la vinotinto al Mundial de Fútbol Médico, uniendo deporte, ciencia y hermandad entre colegas.</p>
+        <div>
+          <div class="count-label">Costa Rica 2026 · faltan</div>
+          <div class="count"><div><b id="cd-d">--</b><span>días</span></div><div><b id="cd-h">--</b><span>horas</span></div><div><b id="cd-m">--</b><span>min</span></div><div><b id="cd-s">--</b><span>seg</span></div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="wrap tiles">
+    <a class="tile" href="#nosotros"><img src="img-dublin-2025-equipo.jpg" alt=""><span class="arrow">→</span><span class="mono">01</span><h3>Quiénes somos</h3><p>Una organización científico-deportiva.</p></a>
+    <a class="tile" href="#trayectoria"><img src="img-natal-2014-equipo.jpg" alt=""><span class="arrow">→</span><span class="mono">02</span><h3>Trayectoria</h3><p>9 mundiales · 4.º lugar en Natal 2014.</p></a>
+    <a class="tile" href="#costa-rica"><img src="img-cancha-noche.jpg" alt=""><span class="arrow">→</span><span class="mono">03</span><h3>Costa Rica 2026</h3><p>12 – 19 de diciembre · San José.</p></a>
+    <a class="tile" href="#plantilla"><img src="img-dublin-2025-vogel.jpg" alt="" style="object-position:center 88%"><span class="arrow">→</span><span class="mono">04</span><h3>Plantilla</h3><p>Morell Cup y Vogel Cup (+45).</p></a>
+  </div>
+  <section class="wrap ig-sec">
+    <div class="ig-head"><div><p class="mono">Síguenos</p><h2>@medicosvinotinto</h2></div><a class="cta" href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg> Seguir en Instagram ↗</a></div>
+    <div class="ig-grid"><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-natal-2014-bandera.jpg" alt="" loading="lazy"></a><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-mar-del-plata-2022-gala.jpg" alt="" loading="lazy"></a><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-viena-2023-himno.jpg" alt="" loading="lazy"></a><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-dublin-2025-equipo.jpg" alt="" loading="lazy"></a><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-camiseta.jpg" alt="" loading="lazy"></a><a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><img src="img-dublin-2025-vogel.jpg" alt="" loading="lazy" style="object-position:center 88%"></a></div>
+  </section>
+</main>
+
+<!-- ============ NOSOTROS ============ -->
+<main class="view" data-view="nosotros">
+  <header class="page-head"><div class="bg" style="background-image:url(img-dublin-2025-morell.jpg)"></div><div class="wrap"><p class="mono">01 · Nosotros</p><h1 class="h-xl">Quiénes<br>somos</h1></div></header>
+  <section class="body"><div class="wrap">
+    <div class="split">
+      <div>
+        <p class="lead" style="font-size:1.25rem;color:#fff">AVEMEF nace como una <strong>organización científico-deportiva</strong> creada por médicos venezolanos para llevar la camiseta del país al World Medical Football Championships (WMFC), el campeonato mundial de fútbol para médicos.</p>
+        <p class="lead" style="margin-top:20px">Más que un equipo, somos una comunidad de especialistas, dentro y fuera de Venezuela, que cree en el ejercicio como medicina, en el intercambio académico entre países y en la amistad que se construye compartiendo una cancha.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18"/><path d="M22 14l7 5-3 8h-8l-3-8z"/></svg><div><h3>Deporte</h3><p>Competimos en el fútbol médico internacional y promovemos la actividad física entre colegas.</p></div></div>
+        <div class="pillar"><svg viewBox="0 0 44 44"><path d="M16 4h12M18 4v12L8 36a3 3 0 0 0 3 4h22a3 3 0 0 0 3-4L26 16V4"/><path d="M12 28h20"/></svg><div><h3>Ciencia</h3><p>Cada mundial va de la mano del Simposio Internacional de Medicina y Salud en el Deporte.</p></div></div>
+        <div class="pillar"><svg viewBox="0 0 44 44"><circle cx="15" cy="15" r="6"/><circle cx="29" cy="15" r="6"/><path d="M4 38c0-7 5-12 11-12s11 5 11 12M22 30c2-3 4-4 7-4 6 0 11 5 11 12"/></svg><div><h3>Hermandad</h3><p>Médicos de todas las especialidades y de la diáspora bajo una misma camiseta.</p></div></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>20<em>14</em></b><span>Primera participación en el WMFC</span></div>
+      <div class="stat"><b>2</b><span>Categorías: Morell Cup y Vogel Cup (+45)</span></div>
+      <div class="stat"><b id="st-n">40</b><span>Médicos inscritos para Costa Rica 2026</span></div>
+      <div class="stat"><b>6</b><span>Países donde viven los jugadores de la Morell 2026</span></div>
+    </div>
+    <div class="next"><span class="mono">Siguiente</span><a href="#mundial">El Mundial →</a></div>
+  </div></section>
+</main>
+
+<!-- ============ MUNDIAL ============ -->
+<main class="view light" data-view="mundial">
+  <header class="page-head"><div class="bg" style="background-image:url(img-cancha-verde.jpg)"></div><div class="wrap"><p class="mono">02 · El Mundial</p><h1 class="h-xl">World Medical<br>Football Champ.</h1></div></header>
+  <section class="body"><div class="wrap split">
+    <div>
+      <p class="lead">En 1973 el neumólogo barcelonés <strong>Dr. Ferran Morell</strong> fundó Galens, un club de fútbol formado por médicos. En 1995 organizó en Barcelona el primer World Medical Football Championships, con equipos de Europa, América, Asia y Oceanía.</p>
+      <p class="lead" style="margin-top:16px">Desde entonces el torneo ha pasado por Brasil, Alemania, Australia, Suecia, Hungría, México, Argentina, Austria e Irlanda. Es la cita anual donde médicos de todo el mundo compiten durante una semana mientras comparten un congreso de medicina del deporte.</p>
+      <div class="facts"><div class="fact"><b>1995</b><span>Primer WMFC, Barcelona</span></div><div class="fact"><b>3.000+</b><span>Médicos de más de 40 equipos han jugado el torneo</span></div></div>
+      <div class="cups"><div class="cup"><h4>Ferran Morell Cup</h4><p>Categoría principal, libre.</p></div><div class="cup"><h4>Clemens Vogel Cup</h4><p>Categoría veteranos, +45 años.</p></div></div>
+    </div>
+    <div style="align-self:center"><blockquote class="quote">“Jugar fútbol con alguien lo convierte en tu amigo para siempre.”<small>Dr. Ferran Morell, fundador del WMFC</small></blockquote></div>
+  </div>
+  <div class="wrap"><div class="next"><span class="mono" style="color:var(--g2)">Siguiente</span><a href="#trayectoria">Trayectoria →</a></div></div></section>
+</main>
+
+<!-- ============ TRAYECTORIA ============ -->
+<main class="view" data-view="trayectoria">
+  <header class="page-head"><div class="bg" style="background-image:url(img-viena-2023-himno.jpg)"></div><div class="wrap"><p class="mono">03 · Trayectoria</p><h1 class="h-xl">Eventos en los que<br>hemos participado</h1><p class="lead">Nueve mundiales jugados desde 2014. Resultados y fotos del archivo de @medicosvinotinto.</p></div></header>
+  <section class="body"><div class="wrap">
+    <div class="timeline" id="timeline"></div>
+    <div class="next"><span class="mono">Siguiente</span><a href="#costa-rica">Costa Rica 2026 →</a></div>
+  </div></section>
+</main>
+
+<!-- ============ COSTA RICA ============ -->
+<main class="view" data-view="costa-rica">
+  <header class="page-head"><div class="bg" style="background-image:url(img-cancha-noche.jpg)"></div><div class="wrap"><p class="mono">04 · Evento de este año</p><h1 class="h-xl">WMFC<br><span style="color:var(--rose)">Costa Rica</span> 2026</h1></div></header>
+  <section class="body"><div class="wrap cr-grid">
+    <div>
+      <p class="lead">Del 12 al 19 de diciembre, San José recibe el mundial en <strong>Proyecto Gol</strong>, el centro de alto rendimiento y casa de las selecciones nacionales de Costa Rica. Venezuela compite en la Morell Cup y en la Vogel Cup (+45).</p>
+      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap"><a class="cta fill" href="#plantilla">Ver plantilla</a><a class="cta" href="https://wmfc2026.com" target="_blank" rel="noopener">wmfc2026.com ↗</a></div>
+      <div class="cr-photo"><img src="img-dublin-2025-vogel.jpg" alt="Equipo Vogel en Dublín 2025"><span>Vogel Cup · Dublín 2025</span></div>
+    </div>
+    <div class="cr-card">
+      <div class="cr-row"><span>Fechas</span><b>12 – 19 dic 2026</b></div>
+      <div class="cr-row"><span>Sede</span><b>Proyecto Gol, San José</b></div>
+      <div class="cr-row"><span>Organiza</span><b>Costa Rica FutMed</b></div>
+      <div class="cr-row"><span>Congreso</span><b>30.º Simposio Internacional de Medicina y Salud en el Deporte</b></div>
+      <div class="cr-row"><span>Venezuela</span><b>Morell Cup · Vogel Cup (+45)</b></div>
+      <div class="cr-row"><span>Representante</span><b>Dr. Salvador Navarrete</b></div>
+      <div class="cr-row"><span>Saque inicial</span><b id="cd-inline">--</b></div>
+    </div>
+  </div>
+  <div class="wrap"><div class="next"><span class="mono">Siguiente</span><a href="#plantilla">Plantilla →</a></div></div></section>
+</main>
+
+<!-- ============ PLANTILLA ============ -->
+<main class="view" data-view="plantilla">
+  <header class="page-head"><div class="bg" style="background-image:url(img-dublin-2025-equipo.jpg)"></div><div class="wrap"><p class="mono">05 · Plantilla</p><h1 class="h-xl">Plantilla<br>2026</h1></div></header>
+  <section class="body"><div class="wrap">
+    <div class="tabs" role="tablist"><button data-cup="morell" class="on">Morell Cup</button><button data-cup="vogel">Vogel Cup · +45</button></div>
+    <div class="roster-meta" id="rmeta"></div>
+    <div id="roster" class="roster"></div>
+    <div class="next"><span class="mono">Siguiente</span><a href="#fundadores">Fundadores →</a></div>
+  </div></section>
+</main>
+
+<!-- ============ FUNDADORES ============ -->
+<main class="view" data-view="fundadores">
+  <header class="page-head"><div class="bg" style="background-image:url(img-natal-2014-equipo.jpg)"></div><div class="wrap"><p class="mono">06 · Fundadores</p><h1 class="h-xl">Los que<br>empezaron</h1><p class="lead">En 2014, un grupo de médicos de Caracas, Venezuela, se dio la tarea de crear una asociación que reuniera a colegas que practicaban fútbol, para promover la vida sana, la práctica del deporte y la participación internacional en el World Medical Football Championships.</p></div></header>
+  <section class="body"><div class="wrap">
+    <div class="founders" id="founders"></div>
+    <div class="next"><span class="mono">Siguiente</span><a href="#galeria">Galería →</a></div>
+  </div></section>
+</main>
+
+<!-- ============ GALERÍA ============ -->
+<main class="view" data-view="galeria">
+  <header class="page-head"><div class="bg" style="background-image:url(img-mar-del-plata-2022-equipo.jpg)"></div><div class="wrap"><p class="mono">07 · Galería</p><h1 class="h-xl">Galería</h1></div></header>
+  <section class="body"><div class="wrap">
+    <div class="tabs gfilter" id="gfilter"></div>
+    <div class="gallery" id="gallery"></div>
+    <p class="mono" style="margin-top:18px;color:var(--g1)">Más en Instagram · <a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener" style="color:var(--rose)">@medicosvinotinto ↗</a></p>
+    <div class="next"><span class="mono">Siguiente</span><a href="#contacto">Contacto →</a></div>
+  </div></section>
+</main>
+
+<!-- ============ CONTACTO ============ -->
+<main class="view light" data-view="contacto">
+  <header class="page-head"><div class="bg" style="background-image:url(img-hero-cancha.jpg)"></div><div class="wrap"><p class="mono">08 · Contacto</p><h1 class="h-xl">¿Médico<br>y futbolista?</h1></div></header>
+  <section class="body"><div class="wrap contact-grid">
+    <div>
+      <p class="lead">Si eres médico venezolano, en el país o en el exterior, y quieres jugar con la selección, patrocinar o sumarte al programa académico, déjanos tu mensaje en el formulario. Para todo lo demás, escríbenos por Instagram.</p>
+      <div class="channels">
+        <a class="ch" href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><span>Instagram</span><b>@medicosvinotinto ↗</b></a>
+        <a class="ch" href="https://wmfc2026.com" target="_blank" rel="noopener"><span>Torneo</span><b>wmfc2026.com ↗</b></a>
+      </div>
+    </div>
+    <form id="form">
+      <div><label for="n">Nombre</label><input id="n" required placeholder="Dr./Dra."></div>
+      <div><label for="c">Tu correo o WhatsApp</label><input id="c" required placeholder="Para poder responderte"></div>
+      <div><label for="e">Especialidad</label><input id="e" placeholder="Ej. Traumatología"></div>
+      <div><label for="i">Me interesa</label><select id="i"><option>Jugar con la selección</option><option>Patrocinar</option><option>Programa académico</option><option>Prensa</option></select></div>
+      <div><label for="m">Mensaje</label><textarea id="m" placeholder="Cuéntanos…"></textarea></div>
+      <button class="btn" type="submit">Enviar →</button>
+      <div class="form-ok" id="ok"></div>
+    </form>
+  </div></section>
+</main>
+
+<footer><div class="wrap"><img src="img-logo-sm.png" alt="AVEMEF"><span>© AVEMEF · Asociación Venezolana de Médicos Futbolistas · En el WMFC desde 2014</span><a class="ig-btn" href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span>@medicosvinotinto</span></a><span>Foto de portada: Pexels</span></div></footer>
+<div class="lb" id="lb"><div><img id="lbimg" alt=""><p id="lbcap"></p></div></div>
+
+<script>
+/* ============ DATOS EDITABLES ============ */
+const EDITIONS=[
+  {y:2014,city:'Natal',c:'Brasil',ve:true,img:'img-natal-2014-equipo.jpg',note:'Debut con el grupo fundador. 4.º lugar: golazo de Daniel Turmero ante Gran Bretaña para pasar a semifinales.'},
+  {y:2015,city:'Long Beach',c:'Estados Unidos',ve:true,img:'img-g-long-beach-2015-equipo.jpg',note:'5.º lugar. Debut 3-1 ante Austria, cuartos ante EE. UU. y cierre 3-0 ante Brasil.'},
+  {y:2016,city:'Barcelona',c:'España',ve:true,img:'img-g-barcelona-2016-equipo.jpg',note:'Tercer año consecutivo. Debut 2-2 ante Gran Bretaña.'},
+  {y:2017,city:'Leogang',c:'Austria',skip:true},
+  {y:2018,city:'Praga',c:'Rep. Checa',ve:true,img:'img-g-praga-2018-equipo.jpg',note:'Grupo F con Ucrania, Argentina y Rusia.'},
+  {y:2019,city:'Riviera Maya',c:'México',ve:true,img:'img-g-riviera-maya-2019-formacion.jpg',note:'Grupo C: debut ante Ucrania, luego Suecia.'},
+  {y:2022,city:'Mar del Plata',c:'Argentina',ve:true,img:'img-mar-del-plata-2022-equipo.jpg',note:'Sexta participación. Debut ante Costa Rica.'},
+  {y:2023,city:'Viena',c:'Austria',ve:true,img:'img-viena-2023-himno.jpg',note:'Debut ante España. Primera vez en la Vogel Cup (+45).'},
+  {y:2024,city:'Australia',c:'Australia',ve:true,note:'Participamos solo en la Vogel Cup (+45).'},
+  {y:2025,city:'Dublín',c:'Irlanda',ve:true,img:'img-dublin-2025-equipo.jpg',note:'Morell Cup y Vogel Cup (+45).'},
+  {y:2026,city:'San José',c:'Costa Rica',next:true,img:'img-cancha-noche.jpg',note:'12 – 19 de diciembre · Proyecto Gol.'},
+];
+const ROSTER={
+  morell:[
+    {n:0,name:'Kyle Tarro',img:'img-jugadores-tarro.jpg',pos:'Portero',esp:'Medicina de urgencia',gk:1},
+    {n:2,name:'Alberto Castellano',img:'img-jugadores-castellano.jpg',pos:'Lateral',esp:'Medicina estética'},
+    {n:3,name:'Giampiero Papa',pos:'Central',esp:''},
+    {n:4,name:'Diego Hanssen',img:'img-jugadores-hanssen.jpg',pos:'Lateral',esp:'Cirugía'},
+    {n:5,name:'Javier Rangel',img:'img-jugadores-rangel.jpg',pos:'Medio',esp:'Flebología',f:1},
+    {n:6,name:'Nicolás López',img:'img-jugadores-lopez.jpg',pos:'Central',esp:'Traumatología'},
+    {n:7,name:'Adam Wade',img:'img-jugadores-wade.jpg',pos:'Delantero / mediapunta',esp:'Médico general'},
+    {n:8,name:'Daniel Certelli',img:'img-jugadores-certelli.jpg',pos:'Defensa / medio',esp:'Médico general'},
+    {n:9,name:'Rogelio Molero',img:'img-jugadores-molero.jpg',pos:'Delantero',esp:'Médico general'},
+    {n:10,name:'Marco Cartaya',img:'img-jugadores-cartaya.jpg',pos:'',esp:'Traumatología',f:1},
+    {n:11,name:'José González',img:'img-jugadores-gonzalez.jpg',pos:'Extremo / delantero',esp:'Neumonología'},
+    {n:12,name:'Juan Colán',img:'img-jugadores-colan.jpg',pos:'Lateral',esp:'Gastroenterología'},
+    {n:13,name:'Simón Briceño',img:'img-jugadores-briceno.jpg',pos:'Lateral',esp:'Traumatología'},
+    {n:14,name:'Willy Neumann',img:'img-jugadores-neumann.jpg',pos:'Medio de contención',esp:'Cirugía'},
+    {n:15,name:'José García',img:'img-jugadores-garcia.jpg',pos:'Central / medio',esp:'Médico general'},
+    {n:16,name:'Houssein Hawi',img:'img-jugadores-hawi.jpg',pos:'Delantero',esp:'Cirugía plástica'},
+    {n:17,name:'Gabriel Escalona',img:'img-jugadores-escalona.jpg',pos:'Lateral izquierdo',esp:'Cirugía bariátrica',f:1},
+    {n:18,name:'Hernán Montilla',img:'img-jugadores-montilla.jpg',pos:'Mediocampo',esp:'Médico general'},
+    {n:19,name:'Ramiro Gerardo',img:'img-jugadores-gerardo.jpg',pos:'Lateral',esp:'Traumatología'},
+    {n:20,name:'Andrés Pachano',img:'img-jugadores-pachano.jpg',pos:'Portero',esp:'Traumatología',gk:1},
+    {n:21,name:'David Viox',img:'img-jugadores-viox.jpg',pos:'Mediocentro / extremo',esp:'Médico general'},
+    {n:22,name:'Nicolás Díaz',img:'img-jugadores-diaz.jpg',pos:'Medio',esp:'Traumatología'},
+    {n:23,name:'Emmanuel Apruzzese',img:'img-jugadores-apruzzese.jpg',pos:'Delantero / extremo',esp:'Medicina estética'},
+    {n:24,name:'Jacob Vaught',pos:'Mediocentro',esp:''},
+    {n:25,name:'Manuel Pérez',img:'img-jugadores-perez.jpg',pos:'Lateral / medio',esp:'Cirugía general'},
+  ],
+  vogel:[
+    {n:1,name:'Edward Hannoush',pos:'Portero',esp:'Cirugía general',img:'img-jugadores-v-hannoush.jpg',gk:1},
+    {n:3,name:'José Ángel Bajares',esp:'Psiquiatría',img:'img-jugadores-v-bajares.jpg'},
+    {n:6,name:'Eduardo Rodríguez',esp:'Cirugía vascular',img:'img-jugadores-v-erodriguez.jpg'},
+    {n:7,name:'Salvador Navarrete',esp:'Cirugía bariátrica',f:1,img:'img-fundador-salvador-navarrete.jpg'},
+    {n:8,name:'Antonio Marcano',esp:'Ginecología',f:1,img:'img-jugadores-v-marcano.jpg'},
+    {n:9,name:'Carlos Anciano',esp:'Cirugía de tórax',img:'img-jugadores-v-anciano.jpg'},
+    {n:10,name:'Saúl Hernández',esp:'Cirugía bariátrica',f:1,img:'img-jugadores-v-hernandez.jpg'},
+    {n:11,name:'Leopoldo Fernández',esp:'Oncología quirúrgica',img:'img-jugadores-v-leopoldo.jpg'},
+    {n:13,name:'José Leyba',esp:'Cirugía bariátrica',f:1,img:'img-fundador-jose-leyba.jpg'},
+    {n:15,name:'Franco Meo',esp:'Traumatología',img:'img-jugadores-v-meo.jpg'},
+    {n:16,name:'Orlando Martín',esp:'Traumatología',img:'img-jugadores-v-martin.jpg'},
+    {n:17,name:'Roberto Sthory',esp:'Cirugía general',img:'img-jugadores-v-sthory.jpg'},
+    {n:20,name:'Juan Pablo Ortega',esp:'Traumatología',img:'img-jugadores-v-ortega.jpg'},
+    {n:21,name:'Javier Pérez',esp:'Cirugía general',img:'img-jugadores-v-jperez.jpg'},
+    {n:22,name:'Luis Alfredo Fernández',esp:'Ginecología',img:'img-jugadores-v-lfernandez.jpg'},
+    {n:23,name:'Félix Lugo',esp:'Ginecología',img:'img-jugadores-v-lugo.jpg'},
+  ]
+};
+const FOUNDERS=[
+  {name:'Gabriel Escalona',sp:'Cirujano bariátrico',wk:'Santiago, Chile',img:'img-fundador-gabriel-escalona.jpg'},
+  {name:'Salvador Navarrete',sp:'Cirujano bariátrico',wk:'Cleveland Clinic · Cleveland, EE. UU.',img:'img-fundador-salvador-navarrete.jpg'},
+  {name:'Tomás Maio',sp:'Traumatólogo',wk:'Barcelona, España',img:'img-fundador-tomas-maio.jpg'},
+  {name:'Rafael Legorburu',sp:'Anestesiólogo',wk:'Madrid, España',img:'img-fundador-rafael-legorburu.jpg'},
+  {name:'Javier Rangel',sp:'Flebólogo',wk:'Madrid, España',img:'img-fundador-javier-rangel.jpg'},
+  {name:'Sirio Melone',sp:'Cirujano',wk:'Madrid, España',img:'img-fundador-sirio-melone.jpg'},
+  {name:'Antonio Marcano',sp:'Ginecólogo',wk:'Barcelona, España',img:'img-jugadores-v-marcano.jpg'},
+  {name:'José Leyba',sp:'Cirujano bariátrico',wk:'Caracas, Venezuela',img:'img-fundador-jose-leyba.jpg'},
+  {name:'Saúl Hernández',sp:'Cirujano bariátrico',wk:'Caracas, Venezuela',img:'img-fundador-saul-hernandez.jpg'},
+  {name:'Marco Cartaya',sp:'Traumatólogo',wk:'Chile',img:'img-fundador-marco-cartaya.jpg'},
+];
+const GALLERY=[
+  {y:2014,src:'img-natal-2014-equipo.jpg',cap:'Natal 2014 · El debut',star:1},
+  {y:2014,src:'img-natal-2014-bandera.jpg',cap:'Natal 2014'},
+  {y:2014,src:'img-natal-2014-hotel.jpg',cap:'Natal 2014 · Concentración'},
+  {y:2014,src:'img-natal-2014-formacion.jpg',cap:'Natal 2014 · Formación'},
+  {y:2014,src:'img-g-natal-2014-playa.jpg',cap:'Natal 2014 · Playa'},
+  {y:2015,src:'img-g-long-beach-2015-equipo.jpg',cap:'Long Beach 2015',star:1},
+  {y:2015,src:'img-g-long-beach-2015-inauguracion.jpg',cap:'Long Beach 2015 · Inauguración'},
+  {y:2015,src:'img-g-long-beach-2015-bandera.jpg',cap:'Long Beach 2015'},
+  {y:2015,src:'img-g-long-beach-2015-cancha.jpg',cap:'Long Beach 2015 · Cancha'},
+  {y:2015,src:'img-g-long-beach-2015-brasil.jpg',cap:'Long Beach 2015 · Tras el 3-0 a Brasil'},
+  {y:2015,src:'img-g-long-beach-2015-hotel.jpg',cap:'Long Beach 2015 · Concentración'},
+  {y:2016,src:'img-g-barcelona-2016-equipo.jpg',cap:'Barcelona 2016',star:1},
+  {y:2016,src:'img-g-barcelona-2016-debut.jpg',cap:'Barcelona 2016 · Debut'},
+  {y:2016,src:'img-g-barcelona-2016-grupo.jpg',cap:'Barcelona 2016'},
+  {y:2018,src:'img-g-praga-2018-equipo.jpg',cap:'Praga 2018',star:1},
+  {y:2018,src:'img-g-praga-2018-formacion.jpg',cap:'Praga 2018 · Formación'},
+  {y:2018,src:'img-g-praga-2018-banderas.jpg',cap:'Praga 2018'},
+  {y:2018,src:'img-g-praga-2018-bus.jpg',cap:'Praga 2018 · Rumbo a la cancha'},
+  {y:2019,src:'img-g-riviera-maya-2019-formacion.jpg',cap:'Riviera Maya 2019',star:1},
+  {y:2019,src:'img-g-riviera-maya-2019-equipo.jpg',cap:'Riviera Maya 2019'},
+  {y:2019,src:'img-g-riviera-maya-2019-bandera.jpg',cap:'Riviera Maya 2019'},
+  {y:2019,src:'img-g-riviera-maya-2019-debut.jpg',cap:'Riviera Maya 2019 · Debut'},
+  {y:2019,src:'img-g-riviera-maya-2019-uniforme.jpg',cap:'Riviera Maya 2019 · Uniforme'},
+  {y:2022,src:'img-mar-del-plata-2022-equipo.jpg',cap:'Mar del Plata 2022',star:1},
+  {y:2022,src:'img-mar-del-plata-2022-gala.jpg',cap:'Mar del Plata 2022 · Gala'},
+  {y:2022,src:'img-g-mar-del-plata-2022-vinotinto.jpg',cap:'Mar del Plata 2022 · Vinotinto'},
+  {y:2022,src:'img-g-mar-del-plata-2022-festejo.jpg',cap:'Mar del Plata 2022 · Festejo'},
+  {y:2022,src:'img-g-mar-del-plata-2022-cena.jpg',cap:'Mar del Plata 2022 · Cena de equipo'},
+  {y:2022,src:'img-g-mar-del-plata-2022-noche.jpg',cap:'Mar del Plata 2022 · Concentración'},
+  {y:2023,src:'img-viena-2023-himno.jpg',cap:'Viena 2023 · Himno ante Colombia',star:1},
+  {y:2023,src:'img-g-viena-2023-equipo.jpg',cap:'Viena 2023'},
+  {y:2023,src:'img-viena-2023-debut.jpg',cap:'Viena 2023 · Debut vs España'},
+  {y:2023,src:'img-camiseta.jpg',cap:'Viena 2023 · La camiseta'},
+  {y:2023,src:'img-g-viena-2023-vogel.jpg',cap:'Viena 2023 · Vogel Cup'},
+  {y:2023,src:'img-g-viena-2023-jugadores.jpg',cap:'Viena 2023'},
+  {y:2023,src:'img-g-viena-2023-noche.jpg',cap:'Viena 2023 · El grupo'},
+  {y:2023,src:'img-g-viena-2023-terraza.jpg',cap:'Viena 2023 · Tercer tiempo'},
+  {y:2023,src:'img-g-viena-2023-cervezas.jpg',cap:'Viena 2023 · Tercer tiempo'},
+  {y:2025,src:'img-dublin-2025-equipo.jpg',cap:'Dublín 2025',star:1},
+  {y:2025,src:'img-dublin-2025-morell.jpg',cap:'Dublín 2025 · Morell Cup'},
+  {y:2025,src:'img-dublin-2025-vogel.jpg',cap:'Dublín 2025 · Vogel Cup',pos:'center 88%'},
+  {y:2025,src:'img-g-dublin-2025-vogel-bandera.jpg',cap:'Dublín 2025 · Vogel Cup'},
+  {y:2025,src:'img-g-dublin-2025-vogel-blanca.jpg',cap:'Dublín 2025 · Vogel Cup'},
+  {y:2025,src:'img-g-dublin-2025-salva.jpg',cap:'Dublín 2025 · Salva, capitán',pos:'center 40%'},
+  {y:2025,src:'img-g-dublin-2025-banderines.jpg',cap:'Dublín 2025 · Banderines'},
+  {y:2025,src:'img-g-dublin-2025-banderin.jpg',cap:'Dublín 2025 · Intercambio de banderines',pos:'center 65%'},
+  {y:2025,src:'img-g-dublin-2025-costa-rica.jpg',cap:'Dublín 2025 · Con Costa Rica',pos:'center 40%'},
+  {y:2025,src:'img-g-dublin-2025-banco.jpg',cap:'Dublín 2025 · El banco'},
+  {y:2025,src:'img-g-dublin-2025-pub.jpg',cap:'Dublín 2025 · Tercer tiempo'},
+  {y:2025,src:'img-g-dublin-2025-castillo.jpg',cap:'Dublín 2025 · Irlanda',pos:'center 60%'}
+];
+const KICKOFF=new Date('2026-12-12T09:00:00-06:00');
+/* ====================================== */
+const $=s=>document.querySelector(s);
+const ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('');
+
+$('#timeline').innerHTML=EDITIONS.map(e=>`<div class="tl ${e.ve?'ve':''} ${e.next?'next26':''} ${e.skip?'skip':''}">${e.img?`<div class="tl-img"><img src="${e.img}" alt="${e.city} ${e.y}" loading="lazy"></div>`:''}<div class="yr">${e.y}</div><div class="city">${e.city}</div><div class="ctry">${e.c}</div>${e.note?`<p>${e.note}</p>`:''}<span class="tag">${e.next?'Próximo':e.ve?'Venezuela ✓':e.skip?'No participamos':'Por confirmar'}</span></div>`).join('');
+
+function renderRoster(cup){
+  const L=ROSTER[cup];
+  $('#rmeta').innerHTML=cup==='morell'
+    ?`<span><b>${L.length}</b>jugadores</span><span><b>2</b>porteros</span><span><b>${new Set(L.map(p=>p.esp).filter(Boolean)).size}</b>especialidades</span>`
+    :`<span><b>${L.length}</b>jugadores</span><span><b>+45</b>años</span><span><b>${new Set(L.map(p=>p.esp).filter(Boolean)).size}</b>especialidades</span><span><b>${L.filter(p=>p.f).length}</b>fundadores en cancha</span>`;
+  $('#roster').innerHTML=L.map(p=>`<div class="player ${p.f?'founder':''}"><div class="ph">${p.img?`<img class="face" src="${p.img}" alt="${p.name}" loading="lazy">`:`<img class="wm" src="img-logo-sm.png" alt="">`}<div class="dorsal">${p.n}</div></div><div class="info">${p.pos?`<div class="pos">${p.pos}</div>`:''}<div class="name">${p.name}</div>${p.esp?`<div class="esp">${p.esp}</div>`:''}</div></div>`).join('');
+}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderRoster(b.dataset.cup)});
+renderRoster('morell');
+$('#st-n').textContent=ROSTER.morell.length+ROSTER.vogel.length;
+
+$('#founders').innerHTML=FOUNDERS.map(f=>`<div class="fd"><div class="ph">${f.img?`<img class="face" src="${f.img}" alt="${f.name}">`:`<img class="wm" src="img-logo-sm.png" alt=""><span class="ini">${ini(f.name)}</span>`}</div><div class="info"><h3>${f.name}</h3><div class="sp ${f.sp?'':'tbd'}">${f.sp||'Especialidad por confirmar'}</div><div class="wk ${f.wk?'':'tbd'}">${f.wk||'Lugar de trabajo por confirmar'}</div></div></div>`).join('');
+
+const YEARS=[...new Set(GALLERY.map(g=>g.y))];
+$('#gfilter').innerHTML=['Destacadas',...YEARS].map((y,i)=>`<button data-y="${y}" class="${i?'':'on'}">${y}</button>`).join('');
+function renderGallery(y){const L=y==='Destacadas'?GALLERY.filter(g=>g.star):GALLERY.filter(g=>g.y==y);
+  $('#gallery').innerHTML=L.map(g=>`<div class="gi" data-i="${GALLERY.indexOf(g)}"><img src="${g.src}" alt="${g.cap}" loading="lazy" style="object-position:${g.pos||'center'}"><span class="cap">${g.cap}</span></div>`).join('');
+  document.querySelectorAll('.gi').forEach(el=>el.onclick=()=>{const g=GALLERY[el.dataset.i];$('#lbimg').src=g.src;$('#lbcap').textContent=g.cap;$('#lb').classList.add('on')});}
+document.querySelectorAll('#gfilter button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#gfilter button').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderGallery(b.dataset.y)});
+renderGallery('Destacadas');
+$('#lb').onclick=()=>$('#lb').classList.remove('on');
+
+function tick(){let ms=Math.max(0,KICKOFF-new Date());const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;
+  $('#cd-d').textContent=d;$('#cd-h').textContent=String(h).padStart(2,'0');$('#cd-m').textContent=String(m).padStart(2,'0');$('#cd-s').textContent=String(s).padStart(2,'0');$('#cd-inline').textContent=`en ${d} días`}
+tick();setInterval(tick,1000);
+
+// router por secciones
+const VIEWS=[...document.querySelectorAll('.view')].map(v=>v.dataset.view);
+function route(){
+  const h=(location.hash||'').slice(1);const v=VIEWS.includes(h)?h:'inicio';
+  document.querySelectorAll('.view').forEach(el=>el.classList.toggle('on',el.dataset.view===v));
+  document.querySelectorAll('#links a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+v));
+  $('#links').classList.remove('open');window.scrollTo(0,0);onScroll();
+}
+addEventListener('hashchange',route);route();
+function onScroll(){$('#nav').classList.toggle('solid',scrollY>30||(location.hash&&location.hash!=='#inicio'))}
+addEventListener('scroll',onScroll,{passive:true});
+
+$('#form').addEventListener('submit',async e=>{e.preventDefault();const ok=$('#ok'),btn=e.target.querySelector('button');btn.disabled=true;btn.textContent='Enviando…';
+  const data={_subject:'Nuevo mensaje desde medicosvinotinto.com',_template:'table',_captcha:'false',Nombre:$('#n').value,Contacto:$('#c').value,Especialidad:$('#e').value,Interes:$('#i').value,Mensaje:$('#m').value};
+  let sent=false;try{const r=await fetch('https://formsubmit.co/ajax/29723d2140a879fa764ac67c035702e8',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});const j=await r.json();sent=String(j.success)==='true'}catch(err){}
+  ok.style.display='block';ok.innerHTML=sent?`¡Gracias, ${$('#n').value||'colega'}! Recibimos tu mensaje y te responderemos pronto.`:`No pudimos enviar el mensaje. Escríbenos por Instagram <a href="https://www.instagram.com/medicosvinotinto/" target="_blank" rel="noopener"><b>@medicosvinotinto</b></a>.`;
+  if(sent)e.target.reset();btn.disabled=false;btn.textContent='Enviar →';});
+</script>
+</body>
+</html>
